@@ -1,0 +1,71 @@
+{
+    "name": "sparrow-keys",
+    "displayName": "Manta's Sparrow Keys",
+    "description": ".",
+    "version": "0.0.0",
+    "publisher": "thisismanta",
+    "categories": [
+        "Keymaps",
+        "Other"
+    ],
+    "keywords": [
+        "keybindings"
+    ],
+    "repository": {
+        "url": "https://github.com/ThisIsManta/vscode-sparrow-keys"
+    },
+    "bugs": {
+        "url": "https://github.com/ThisIsManta/vscode-sparrow-keys/issues"
+    },
+    "engines": {
+        "vscode": "^1.18.0"
+    },
+    "activationEvents": [
+        "*"
+    ],
+    "main": "./dist/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "sparrowKeys.openRecent",
+                "title": "Sparrow Keys: Open Recent File"
+            },
+            {
+                "command": "sparrowKeys.openSimilar",
+                "title": "Sparrow Keys: Open Similar File"
+            },
+            {
+                "command": "sparrowKeys.openPackage",
+                "title": "Sparrow Keys: Open package.json"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "sparrowKeys.focusFile"
+            },
+            {
+                "command": "sparrowKeys.renameFile"
+            },
+            {
+                "command": "sparrowKeys.duplicateFile"
+            }
+        ]
+    },
+    "scripts": {
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "compile": "tsc --watch --project ./",
+        "vscode:prepublish": "tsc --skipLibCheck --project ./",
+        "version": "vsce publish",
+        "postversion": "git push --tags --quiet origin master:master"
+    },
+    "devDependencies": {
+        "@types/lodash": "^4.14.73",
+        "@types/node": "^6.0.86",
+        "@types/typescript": "^2.0.0",
+        "vscode": "^1.1.6"
+    },
+    "dependencies": {
+        "lodash": "^4.17.4",
+        "typescript": "~2.6.1"
+    }
+}
