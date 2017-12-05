@@ -1,26 +1,19 @@
 # Sparrow Keys
 
-**Sparrow Keys** is a **VS Code** extension that prodives.
+**Sparrow Keys** is a Visual Studio Code extension that provides useful keyboard shortcuts.
 
 ## Basic usage
 
 As soon as **Sparrow Keys** is installed, the extension offers the following keybindings:
 
-- `ctrl+up` and `ctrl+down` - move cursor up/down by 3 character-containing lines. This skips empty lines and lines that contain only [non-word characters](https://www.w3schools.com/Jsref/jsref_regexp_wordchar_non.asp).
+- `sparrowKeys.openRecent` - open the recently opened file. This command is quite like `workbench.action.openNextRecentlyUsedEditorInGroup`, but this does not distract you with any dialogs or pop-ups.
 
-	![ctrl+up](docs/ctrl+up.gif)
+- `sparrowKeys.openSimilar` - open the files that share the same name and directory with the current active file. For example, this command will cycle through _MyComponent.js_, _MyComponent.test.js_, and _MyComponent.css_.
 
-- `ctrl+shift+up` - select like the built-in `editor.action.smartSelect.grow` command, but better with JavaScript/TypeScript/JSON/React files. For example, the selection makes in React `<div>...</div>` expand gradually.
-- `ctrl+shift+down` - reduce the selection made by `ctrl+shift+up`.
+- `sparrowKeys.openPackage` - open the _package.json_ file in the root workspace.
 
-	![ctrl+shift+up](docs/ctrl+shift+up.gif)
+- `sparrowKeys.focusFile` - trigger `workbench.files.action.focusFilesExplorer` and `workbench.files.action.showActiveFileInExplorer` commands respectively.
 
-- `ctrl+left` and `ctrl+right` - move cursor left/right by one word. This is different from the built-in `cursorWordStartLeft` and `cursorWordEndRight` commands because this considers _camelCase_ as two words and skips non-word characters.
+- `sparrowKeys.renameFile` - trigger `workbench.files.action.focusFilesExplorer`, `workbench.files.action.showActiveFileInExplorer`, and `renameFile` commands respectively.
 
-	![ctrl+right](docs/ctrl+right.gif)
-
-- `ctrl+shift+left` and `ctrl+shift+right` - similar to `ctrl+left`/`ctrl+right`, but this expands the selection instead of moving the cursor.
-
-- _(no keybindings)_ - delete the whole text on the left of the cursor.
-
-	![shift+backspace](docs/shift+backspace.gif)
+- `sparrowKeys.duplicateFile` - trigger `filesExplorer.copy` and `filesExplorer.paste` commands respectively. This must be called while you are focusing on the files explorer only.

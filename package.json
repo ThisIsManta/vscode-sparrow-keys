@@ -48,6 +48,18 @@
             },
             {
                 "command": "sparrowKeys.duplicateFile"
+            },
+            {
+                "command": "sparrowKeys.installPackages"
+            },
+            {
+                "command": "sparrowKeys.runDevelop"
+            },
+            {
+                "command": "sparrowKeys.runTest"
+            },
+            {
+                "command": "sparrowKeys.runLint"
             }
         ]
     },

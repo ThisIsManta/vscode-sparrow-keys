@@ -68,28 +68,10 @@ export function activate(context: vscode.ExtensionContext) {
     }))
 
     context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.openPackage', async () => {
-        if (!vscode.workspace.workspaceFolders) {
-            return null
+        const rootLink = await getRootFolder()
+        if (rootLink) {
+            vscode.window.showTextDocument(vscode.Uri.file(fp.join(rootLink.uri.fsPath, 'package.json')))
         }
-
-        const rootList = vscode.workspace.workspaceFolders.filter(item => fs.existsSync(fp.join(item.uri.fsPath, 'package.json')))
-
-        if (rootList.length === 0) {
-            vscode.window.showErrorMessage('Sparrow Keys: package.json file could not be found.')
-            return null
-        }
-
-        if (rootList.length === 1) {
-            return openPackageJSON(rootList[0])
-        }
-
-        const pickItem = await vscode.window.showQuickPick(rootList.map(item => item.name + '/package.json'))
-        if (!pickItem) {
-            return null
-        }
-
-        const pickLink = vscode.workspace.workspaceFolders.find(item => pickItem === (item.name + '/package.json'))
-        return openPackageJSON(pickLink)
     }))
 
     context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.focusFile', async () => {
@@ -107,8 +89,115 @@ export function activate(context: vscode.ExtensionContext) {
         await vscode.commands.executeCommand('filesExplorer.copy')
         await vscode.commands.executeCommand('filesExplorer.paste')
     }))
+
+    context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.installPackages', async () => {
+        const rootLink = await getRootFolder()
+        if (!rootLink) {
+            return null
+        }
+
+        let exec = 'npm install'
+        if (fs.existsSync(fp.join(rootLink.uri.fsPath, 'yarn.lock'))) {
+            exec = 'yarn'
+        }
+
+        const term = vscode.window.createTerminal('install')
+        term.sendText(changeDirectory(rootLink))
+        term.show(true)
+        term.sendText(exec)
+    }))
+
+    let devlTerm: vscode.Terminal
+    context.subscriptions.push(vscode.window.onDidCloseTerminal((term) => {
+        if (term === devlTerm) {
+            devlTerm = null
+        }
+    }))
+
+    context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.runDevelop', async () => {
+        const rootLink = await getRootFolder()
+        if (!rootLink) {
+            return null
+        }
+
+        if (!devlTerm) {
+            devlTerm = vscode.window.createTerminal('dev')
+            devlTerm.sendText(changeDirectory(rootLink))
+        }
+
+        devlTerm.show(true)
+        devlTerm.sendText('npm run dev')
+    }))
+
+    let testTerm: vscode.Terminal
+    context.subscriptions.push(vscode.window.onDidCloseTerminal((term) => {
+        if (term === testTerm) {
+            testTerm = null
+        }
+    }))
+
+    context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.runTest', async () => {
+        const rootLink = await getRootFolder()
+        if (!rootLink) {
+            return null
+        }
+
+        if (!testTerm) {
+            testTerm = vscode.window.createTerminal('test')
+            testTerm.sendText(changeDirectory(rootLink))
+        }
+
+        testTerm.show(true)
+        testTerm.sendText('npm run test')
+    }))
+
+    let lintTerm: vscode.Terminal
+    context.subscriptions.push(vscode.window.onDidCloseTerminal((term) => {
+        if (term === lintTerm) {
+            lintTerm = null
+        }
+    }))
+
+    context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.runLint', async () => {
+        const rootLink = await getRootFolder()
+        if (!rootLink) {
+            return null
+        }
+
+        if (!lintTerm) {
+            lintTerm = vscode.window.createTerminal('lint')
+            lintTerm.sendText(changeDirectory(rootLink))
+        }
+
+        lintTerm.show(true)
+        lintTerm.sendText('npm run lint')
+    }))
 }
 
-function openPackageJSON(link: vscode.WorkspaceFolder) {
-    return vscode.window.showTextDocument(vscode.Uri.file(fp.join(link.uri.fsPath, 'package.json')))
+async function getRootFolder() {
+    if (!vscode.workspace.workspaceFolders) {
+        return null
+    }
+
+    const rootList = vscode.workspace.workspaceFolders.filter(item => fs.existsSync(fp.join(item.uri.fsPath, 'package.json')))
+
+    if (rootList.length === 0) {
+        vscode.window.showErrorMessage('Sparrow Keys: package.json file could not be found.')
+        return null
+    }
+
+    if (rootList.length === 1) {
+        return rootList[0]
+    }
+
+    const pickItem = await vscode.window.showQuickPick(rootList.map(item => item.name))
+    if (!pickItem) {
+        return null
+    }
+
+    return vscode.workspace.workspaceFolders.find(item => pickItem === item.name)
+}
+
+function changeDirectory(rootLink: vscode.WorkspaceFolder) {
+    return 'cd "' + rootLink.uri.fsPath.split(fp.sep).join(fp.posix.sep) + '"'
 }
