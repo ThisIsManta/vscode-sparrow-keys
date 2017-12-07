@@ -1,7 +1,7 @@
 {
     "name": "sparrow-keys",
     "displayName": "Manta's Sparrow Keys",
-    "description": ".",
+    "description": "Add useful keyboard shortcuts.",
     "version": "0.0.0",
     "publisher": "thisismanta",
     "categories": [
@@ -40,6 +40,15 @@
             }
         ],
         "keybindings": [
+            {
+                "command": "sparrowKeys.openRecent"
+            },
+            {
+                "command": "sparrowKeys.openSimilar"
+            },
+            {
+                "command": "sparrowKeys.openPackage"
+            },
             {
                 "command": "sparrowKeys.focusFile"
             },
