@@ -37,6 +37,22 @@
             {
                 "command": "sparrowKeys.openPackage",
                 "title": "Sparrow Keys: Open package.json"
+            },
+            {
+                "command": "sparrowKeys.installPackages",
+                "title": "Sparrow Keys: Run npm install"
+            },
+            {
+                "command": "sparrowKeys.runDevelop",
+                "title": "Sparrow Keys: Run npm run dev"
+            },
+            {
+                "command": "sparrowKeys.runTest",
+                "title": "Sparrow Keys: Run npm run test"
+            },
+            {
+                "command": "sparrowKeys.runLint",
+                "title": "Sparrow Keys: Run npm run lint"
             }
         ],
         "keybindings": [
