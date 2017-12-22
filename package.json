@@ -9,6 +9,8 @@
         "Other"
     ],
     "keywords": [
+        "file",
+        "npm",
         "keybindings"
     ],
     "repository": {
@@ -16,6 +18,11 @@
     },
     "bugs": {
         "url": "https://github.com/ThisIsManta/vscode-sparrow-keys/issues"
+    },
+    "icon": "docs/logo.png",
+    "galleryBanner": {
+        "color": "#212121",
+        "theme": "dark"
     },
     "engines": {
         "vscode": "^1.18.0"
