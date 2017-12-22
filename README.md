@@ -16,7 +16,7 @@ As soon as **Sparrow Keys** is installed, the extension offers the following key
 
 - `sparrowKeys.renameFile` - trigger `workbench.files.action.focusFilesExplorer`, `workbench.files.action.showActiveFileInExplorer`, and `renameFile` commands respectively.
 
-- `sparrowKeys.duplicateFile` - trigger `filesExplorer.copy` and `filesExplorer.paste` commands respectively. This must be called while you are focusing on the files explorer only.
+- `sparrowKeys.duplicateFile` - trigger `filesExplorer.copy` and `filesExplorer.paste` commands respectively. This must be called when you focus on the files explorer only.
 
 - `sparrowKeys.installPackages` - open an integrated terminal and run `npm install` command.
 
