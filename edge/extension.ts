@@ -7,6 +7,10 @@ export function activate(context: vscode.ExtensionContext) {
     let openingEditors: Array<vscode.TextEditor> = []
 
     context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(activeEditor => {
+        if (activeEditor === undefined) {
+            return null
+        }
+
         if (openingEditors.indexOf(activeEditor) >= 0) {
             openingEditors.splice(openingEditors.indexOf(activeEditor), 1)
         }
