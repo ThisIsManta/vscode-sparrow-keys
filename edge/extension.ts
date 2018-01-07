@@ -4,25 +4,45 @@ import * as vscode from 'vscode'
 import * as _ from 'lodash'
 
 export function activate(context: vscode.ExtensionContext) {
-    let openingEditors: Array<vscode.TextEditor> = []
+    const recentEditors: Array<{ document: vscode.TextDocument, viewColumn: vscode.ViewColumn }> = []
 
     context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(activeEditor => {
         if (activeEditor === undefined) {
             return null
         }
 
-        if (openingEditors.indexOf(activeEditor) >= 0) {
-            openingEditors.splice(openingEditors.indexOf(activeEditor), 1)
+        const editor = recentEditors.find(editor => editor.document.fileName === activeEditor.document.fileName)
+        if (editor !== undefined) {
+            recentEditors.splice(recentEditors.indexOf(editor), 1)
         }
-        openingEditors.unshift(activeEditor)
-        if (openingEditors.length > 10) {
-            openingEditors = _.take(openingEditors, 10)
+
+        recentEditors.unshift({ document: activeEditor.document, viewColumn: activeEditor.viewColumn })
+
+        for (let column = 1; column <= 3; column++) {
+            const recentEditorsInColumn = recentEditors.filter(editor => editor.viewColumn === column)
+            const antiqueEditors = recentEditorsInColumn.slice(3)
+            for (const editor of antiqueEditors) {
+                recentEditorsInColumn.splice(recentEditorsInColumn.indexOf(editor), 1)
+            }
         }
     }))
 
     context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.openRecent', () => {
-        const recentEditor = _.last(openingEditors.slice(0, 2))
-        if (recentEditor) {
+        if (vscode.window.activeTextEditor === undefined) {
+            vscode.window.showTextDocument(recentEditors[0].document, vscode.ViewColumn.Active)
+            return null
+        }
+
+        if (vscode.window.visibleTextEditors.length > 1) {
+            const recentEditor = recentEditors.find(editor => editor.document.fileName !== vscode.window.activeTextEditor.document.fileName && editor.viewColumn === vscode.window.activeTextEditor.viewColumn)
+            if (recentEditor) {
+                vscode.window.showTextDocument(recentEditor.document, recentEditor.viewColumn)
+                return null
+            }
+        }
+
+        const recentEditor = recentEditors.find(editor => editor.document.fileName !== vscode.window.activeTextEditor.document.fileName)
+        if (recentEditor !== undefined) {
             vscode.window.showTextDocument(recentEditor.document, recentEditor.viewColumn)
         }
     }))
