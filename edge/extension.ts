@@ -93,8 +93,31 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.openPackage', async () => {
         const rootLink = await getRootFolder()
-        if (rootLink) {
-            vscode.window.showTextDocument(vscode.Uri.file(fp.join(rootLink.uri.fsPath, 'package.json')))
+        if (!rootLink) {
+            return null
+        }
+        const rootPath = rootLink.uri.fsPath
+
+        const packageJsonPathList: Array<string> = []
+        let packageJsonPath = vscode.window.activeTextEditor.document.fileName
+        do {
+            const pathChunks = packageJsonPath.split(fp.sep)
+            pathChunks.pop()
+            packageJsonPath = pathChunks.join(fp.sep)
+
+            if (fs.existsSync(fp.join(packageJsonPath, 'package.json'))) {
+                packageJsonPathList.push(fp.join(packageJsonPath, 'package.json'))
+            }
+        } while (packageJsonPath !== rootPath)
+
+        if (packageJsonPathList.length === 1) {
+            vscode.window.showTextDocument(vscode.Uri.file(packageJsonPath))
+        } else if (packageJsonPathList.length > 1) {
+            const pickList = packageJsonPathList.map(path => path.substring(rootPath.length + 1))
+            const pickItem = await vscode.window.showQuickPick(pickList)
+            if (pickItem) {
+                vscode.window.showTextDocument(vscode.Uri.file(fp.join(rootPath, pickItem)))
+            }
         }
     }))
 
