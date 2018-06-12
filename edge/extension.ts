@@ -111,7 +111,7 @@ export function activate(context: vscode.ExtensionContext) {
         } while (packageJsonPath !== rootPath)
 
         if (packageJsonPathList.length === 1) {
-            vscode.window.showTextDocument(vscode.Uri.file(packageJsonPath))
+            vscode.window.showTextDocument(vscode.Uri.file(packageJsonPathList[0]))
         } else if (packageJsonPathList.length > 1) {
             const pickList = packageJsonPathList.map(path => path.substring(rootPath.length + 1))
             const pickItem = await vscode.window.showQuickPick(pickList)

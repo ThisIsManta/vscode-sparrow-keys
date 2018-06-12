@@ -1,3 +1,6 @@
+### 0.2.1
+- Fixed `sparrowKeys.openPackage` command so it can open `package.json` at the root workspace folder.
+
 ### 0.2.0
 - Amended `sparrowKeys.openPackage` command so it lists all `package.json` starting from current working directory to the workspace.
 
