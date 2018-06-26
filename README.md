@@ -10,7 +10,9 @@ As soon as **Sparrow Keys** is installed, the extension offers the following key
 
 - `sparrowKeys.openSimilar` - open the files that share the same name and directory with the current active file. For example, this command will cycle through _MyComponent.js_, _MyComponent.test.js_, and _MyComponent.css_.
 
-- `sparrowKeys.openPackage` - open the _package.json_ file in the root workspace.
+- `sparrowKeys.openReadme` - open a _README.md_ file in the opening workspace(s).
+
+- `sparrowKeys.openPackage` - open a _package.json_ file in the opening workspace(s).
 
 - `sparrowKeys.focusFile` - trigger `workbench.files.action.focusFilesExplorer` and `workbench.files.action.showActiveFileInExplorer` commands respectively.
 
