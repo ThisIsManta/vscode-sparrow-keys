@@ -92,31 +92,31 @@ export function activate(context: vscode.ExtensionContext) {
     }))
 
     context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.openPackage', async () => {
-        const rootLink = await getRootFolder()
-        if (!rootLink) {
-            return null
-        }
-        const rootPath = rootLink.uri.fsPath
+        const linkList = await vscode.workspace.findFiles('**/package.json')
+        if (linkList.length === 1) {
+            vscode.window.showTextDocument(linkList[0])
+        } else if (linkList.length > 1) {
+            const currentWorkspaceLink = await getRootFolder()
+            const currentDirectoryPath = fp.dirname(vscode.window.activeTextEditor.document.fileName)
 
-        const packageJsonPathList: Array<string> = []
-        let packageJsonPath = vscode.window.activeTextEditor.document.fileName
-        do {
-            const pathChunks = packageJsonPath.split(fp.sep)
-            pathChunks.pop()
-            packageJsonPath = pathChunks.join(fp.sep)
+            const workspaceList = vscode.workspace.workspaceFolders.map(item => item.uri.fsPath)
+            const commonWorkspacePath = getGreatestCommonPath(workspaceList)
 
-            if (fs.existsSync(fp.join(packageJsonPath, 'package.json'))) {
-                packageJsonPathList.push(fp.join(packageJsonPath, 'package.json'))
-            }
-        } while (packageJsonPath !== rootPath)
-
-        if (packageJsonPathList.length === 1) {
-            vscode.window.showTextDocument(vscode.Uri.file(packageJsonPathList[0]))
-        } else if (packageJsonPathList.length > 1) {
-            const pickList = packageJsonPathList.map(path => path.substring(rootPath.length + 1))
-            const pickItem = await vscode.window.showQuickPick(pickList)
+            const pickList = _.chain(linkList)
+                .sortBy(
+                    link => -getGreatestCommonPath([fp.dirname(link.fsPath), currentDirectoryPath]).split(fp.sep).length,
+                    link => currentWorkspaceLink && fp.dirname(link.fsPath).startsWith(currentWorkspaceLink.uri.fsPath) ? 1 : 2,
+                    link => link.fsPath
+                )
+                .map(link => ({
+                    label: fp.basename(link.fsPath),
+                    description: _.trim(fp.dirname(link.fsPath).substring(commonWorkspacePath.length).replace(/\\/g, '/'), '/'),
+                    link,
+                }))
+                .value()
+            const pickItem = await vscode.window.showQuickPick(pickList, { matchOnDescription: true })
             if (pickItem) {
-                vscode.window.showTextDocument(vscode.Uri.file(fp.join(rootPath, pickItem)))
+                vscode.window.showTextDocument(pickItem.link)
             }
         }
     }))
@@ -247,4 +247,18 @@ async function getRootFolder() {
 
 function changeDirectory(rootLink: vscode.WorkspaceFolder) {
     return 'cd "' + rootLink.uri.fsPath.split(fp.sep).join(fp.posix.sep) + '"'
+}
+
+function getGreatestCommonPath(pathList: Array<string>) {
+    const workingList = pathList.map(path => path.split(fp.sep))
+    const shortestPathCount = _.minBy(workingList, 'length').length
+    const commonPathList: Array<string> = []
+    for (let index = 0; index <= shortestPathCount; index++) {
+        if (workingList.every(items => items[index] === workingList[0][index])) {
+            commonPathList.push(workingList[0][index])
+        } else {
+            break
+        }
+    }
+    return commonPathList.join(fp.sep)
 }
