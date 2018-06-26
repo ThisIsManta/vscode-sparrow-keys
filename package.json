@@ -42,6 +42,10 @@
                 "title": "Sparrow Keys: Open Similar File"
             },
             {
+                "command": "sparrowKeys.openReadme",
+                "title": "Sparrow Keys: Open README.md"
+            },
+            {
                 "command": "sparrowKeys.openPackage",
                 "title": "Sparrow Keys: Open package.json"
             },
@@ -68,6 +72,9 @@
             },
             {
                 "command": "sparrowKeys.openSimilar"
+            },
+            {
+                "command": "sparrowKeys.openReadme"
             },
             {
                 "command": "sparrowKeys.openPackage"

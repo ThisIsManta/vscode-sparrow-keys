@@ -92,33 +92,11 @@ export function activate(context: vscode.ExtensionContext) {
     }))
 
     context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.openPackage', async () => {
-        const linkList = await vscode.workspace.findFiles('**/package.json')
-        if (linkList.length === 1) {
-            vscode.window.showTextDocument(linkList[0])
-        } else if (linkList.length > 1) {
-            const currentWorkspaceLink = await getRootFolder()
-            const currentDirectoryPath = fp.dirname(vscode.window.activeTextEditor.document.fileName)
+        showFiles('**/package.json')
+    }))
 
-            const workspaceList = vscode.workspace.workspaceFolders.map(item => item.uri.fsPath)
-            const commonWorkspacePath = getGreatestCommonPath(workspaceList)
-
-            const pickList = _.chain(linkList)
-                .sortBy(
-                    link => -getGreatestCommonPath([fp.dirname(link.fsPath), currentDirectoryPath]).split(fp.sep).length,
-                    link => currentWorkspaceLink && fp.dirname(link.fsPath).startsWith(currentWorkspaceLink.uri.fsPath) ? 1 : 2,
-                    link => link.fsPath
-                )
-                .map(link => ({
-                    label: fp.basename(link.fsPath),
-                    description: _.trim(fp.dirname(link.fsPath).substring(commonWorkspacePath.length).replace(/\\/g, '/'), '/'),
-                    link,
-                }))
-                .value()
-            const pickItem = await vscode.window.showQuickPick(pickList, { matchOnDescription: true })
-            if (pickItem) {
-                vscode.window.showTextDocument(pickItem.link)
-            }
-        }
+    context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.openReadme', async () => {
+        showFiles('**/README.md')
     }))
 
     context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.focusFile', async () => {
@@ -261,4 +239,34 @@ function getGreatestCommonPath(pathList: Array<string>) {
         }
     }
     return commonPathList.join(fp.sep)
+}
+
+async function showFiles(query: string) {
+    const linkList = await vscode.workspace.findFiles(query)
+    if (linkList.length === 1) {
+        vscode.window.showTextDocument(linkList[0])
+    } else if (linkList.length > 1) {
+        const currentWorkspaceLink = await getRootFolder()
+        const currentDirectoryPath = fp.dirname(vscode.window.activeTextEditor.document.fileName)
+
+        const workspaceList = vscode.workspace.workspaceFolders.map(item => item.uri.fsPath)
+        const commonWorkspacePath = getGreatestCommonPath(workspaceList)
+
+        const pickList = _.chain(linkList)
+            .sortBy(
+                link => -getGreatestCommonPath([fp.dirname(link.fsPath), currentDirectoryPath]).split(fp.sep).length,
+                link => currentWorkspaceLink && fp.dirname(link.fsPath).startsWith(currentWorkspaceLink.uri.fsPath) ? 1 : 2,
+                link => link.fsPath
+            )
+            .map(link => ({
+                label: fp.basename(link.fsPath),
+                description: _.trim(fp.dirname(link.fsPath).substring(commonWorkspacePath.length).replace(/\\/g, '/'), '/'),
+                link,
+            }))
+            .value()
+        const pickItem = await vscode.window.showQuickPick(pickList, { matchOnDescription: true })
+        if (pickItem) {
+            vscode.window.showTextDocument(pickItem.link)
+        }
+    }
 }

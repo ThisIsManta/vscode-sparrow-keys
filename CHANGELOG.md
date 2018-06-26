@@ -1,4 +1,5 @@
 ### 1.0.0
+- Added `sparrowKeys.openReadme` command.
 - Amended `sparrowKeys.openPackage` command so it lists all `package.json` in the current working workspace(s).
 
 ### 0.2.1
