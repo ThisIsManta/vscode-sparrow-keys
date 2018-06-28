@@ -62,22 +62,22 @@
             {
                 "key": "f1",
                 "command": "sparrowKeys.openRecent",
-                "when": "inFilesPicker"
+                "when": "inQuickOpen"
             },
             {
                 "key": "f2",
                 "command": "sparrowKeys.openSimilar",
-                "when": "inFilesPicker"
+                "when": "inQuickOpen"
             },
             {
                 "key": "f3",
                 "command": "sparrowKeys.openReadme",
-                "when": "inFilesPicker"
+                "when": "inQuickOpen"
             },
             {
                 "key": "f4",
                 "command": "sparrowKeys.openPackage",
-                "when": "inFilesPicker"
+                "when": "inQuickOpen"
             },
             {
                 "key": "shift+f2",
@@ -85,7 +85,9 @@
                 "when": "editorTextFocus"
             },
             {
-                "command": "sparrowKeys.duplicateFile"
+                "key": "ctrl+d",
+                "command": "sparrowKeys.duplicateFile",
+                "when": "explorerViewletVisible && filesExplorerFocus"
             }
         ]
     },
