@@ -2,6 +2,7 @@
 - Removed `sparrowKeys.focusFile`, `sparrowKeys.installPackages`, `sparrowKeys.runDevelop`, `sparrowKeys.runTest`, and `sparrowKeys.runLint` commands.
 - Added default key bindings for some commands.
 - Added `sparrowKeys.renameFile` and `sparrowKeys.duplicateFile` commands to the command list.
+- Amended `sparrowKeys.openReadme` and `sparrowKeys.openPackage` commands so they sort shortest paths after the longest matching path.
 
 ### 1.0.0
 - Added `sparrowKeys.openReadme` command.

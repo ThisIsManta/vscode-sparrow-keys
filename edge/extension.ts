@@ -128,23 +128,28 @@ async function showFiles(query: string) {
     const linkList = await vscode.workspace.findFiles(query)
     if (linkList.length === 1) {
         vscode.window.showTextDocument(linkList[0])
+
     } else if (linkList.length > 1) {
-        const currentDirectoryPath = vscode.window.activeTextEditor ? fp.dirname(vscode.window.activeTextEditor.document.fileName) : null
 
         const sortingDirectives = _.compact([
-            currentDirectoryPath && ((link: vscode.Uri) => -getLongestCommonPath([fp.dirname(link.fsPath), currentDirectoryPath]).split(fp.sep).length),
             (link: vscode.Uri) => vscode.workspace.workspaceFolders.findIndex(workspace => link.fsPath.startsWith(workspace.uri.fsPath)),
-            (link: vscode.Uri) => link.fsPath,
+            (link: vscode.Uri) => fp.dirname(link.fsPath),
         ])
 
-        const workspaceList = vscode.workspace.workspaceFolders.map(item => item.uri.fsPath)
-        const commonWorkspacePath = getLongestCommonPath(workspaceList)
+        if (vscode.window.activeTextEditor) {
+            const currentDirectoryPath = fp.dirname(vscode.window.activeTextEditor.document.fileName)
+            const longestCommonLink = _.maxBy(linkList, link => getLongestCommonPath([fp.dirname(link.fsPath), currentDirectoryPath]).split(fp.sep).length)
+            sortingDirectives.unshift((link: vscode.Uri) => link.fsPath === longestCommonLink.fsPath ? 1 : 2)
+        }
+
+        const workspacePathList = vscode.workspace.workspaceFolders.map(item => item.uri.fsPath)
+        const workspaceCommonPath = getLongestCommonPath(workspacePathList)
 
         const pickList = _.chain(linkList)
             .sortBy(...sortingDirectives)
             .map(link => ({
                 label: fp.basename(link.fsPath),
-                description: _.trim(fp.dirname(link.fsPath).substring(commonWorkspacePath.length).replace(/\\/g, '/'), '/'),
+                description: fp.dirname(link.fsPath).substring(workspaceCommonPath.length),
                 link,
             }))
             .value()
