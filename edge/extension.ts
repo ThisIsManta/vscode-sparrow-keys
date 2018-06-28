@@ -246,18 +246,19 @@ async function showFiles(query: string) {
     if (linkList.length === 1) {
         vscode.window.showTextDocument(linkList[0])
     } else if (linkList.length > 1) {
-        const currentWorkspaceLink = await getRootFolder()
-        const currentDirectoryPath = fp.dirname(vscode.window.activeTextEditor.document.fileName)
+        const currentDirectoryPath = vscode.window.activeTextEditor ? fp.dirname(vscode.window.activeTextEditor.document.fileName) : null
+
+        const sortingDirectives = _.compact([
+            currentDirectoryPath && ((link: vscode.Uri) => -getGreatestCommonPath([fp.dirname(link.fsPath), currentDirectoryPath]).split(fp.sep).length),
+            (link: vscode.Uri) => vscode.workspace.workspaceFolders.findIndex(workspace => link.fsPath.startsWith(workspace.uri.fsPath)),
+            (link: vscode.Uri) => link.fsPath,
+        ])
 
         const workspaceList = vscode.workspace.workspaceFolders.map(item => item.uri.fsPath)
         const commonWorkspacePath = getGreatestCommonPath(workspaceList)
 
         const pickList = _.chain(linkList)
-            .sortBy(
-                link => -getGreatestCommonPath([fp.dirname(link.fsPath), currentDirectoryPath]).split(fp.sep).length,
-                link => currentWorkspaceLink && fp.dirname(link.fsPath).startsWith(currentWorkspaceLink.uri.fsPath) ? 1 : 2,
-                link => link.fsPath
-            )
+            .sortBy(...sortingDirectives)
             .map(link => ({
                 label: fp.basename(link.fsPath),
                 description: _.trim(fp.dirname(link.fsPath).substring(commonWorkspacePath.length).replace(/\\/g, '/'), '/'),
