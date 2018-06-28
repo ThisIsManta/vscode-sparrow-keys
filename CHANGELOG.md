@@ -1,3 +1,8 @@
+### 2.0.0
+- Removed `sparrowKeys.focusFile`, `sparrowKeys.installPackages`, `sparrowKeys.runDevelop`, `sparrowKeys.runTest`, and `sparrowKeys.runLint` commands.
+- Added default key bindings for some commands.
+- Added `sparrowKeys.renameFile` and `sparrowKeys.duplicateFile` commands to the command list.
+
 ### 1.0.0
 - Added `sparrowKeys.openReadme` command.
 - Amended `sparrowKeys.openPackage` command so it lists all `package.json` in the current working workspace(s).
