@@ -1,4 +1,3 @@
-import * as fs from 'fs'
 import * as fp from 'path'
 import * as vscode from 'vscode'
 import * as _ from 'lodash'
@@ -114,120 +113,9 @@ export function activate(context: vscode.ExtensionContext) {
         await vscode.commands.executeCommand('filesExplorer.copy')
         await vscode.commands.executeCommand('filesExplorer.paste')
     }))
-
-    context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.installPackages', async () => {
-        const rootLink = await getRootFolder()
-        if (!rootLink) {
-            return null
-        }
-
-        let exec = 'npm install'
-        if (fs.existsSync(fp.join(rootLink.uri.fsPath, 'yarn.lock'))) {
-            exec = 'yarn'
-        }
-
-        const term = vscode.window.createTerminal('install')
-        term.sendText(changeDirectory(rootLink))
-        term.show(true)
-        term.sendText(exec)
-    }))
-
-    let devlTerm: vscode.Terminal
-    context.subscriptions.push(vscode.window.onDidCloseTerminal((term) => {
-        if (term === devlTerm) {
-            devlTerm = null
-        }
-    }))
-
-    context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.runDevelop', async () => {
-        const rootLink = await getRootFolder()
-        if (!rootLink) {
-            return null
-        }
-
-        if (!devlTerm) {
-            devlTerm = vscode.window.createTerminal('dev')
-            devlTerm.sendText(changeDirectory(rootLink))
-        }
-
-        devlTerm.show(true)
-        devlTerm.sendText('npm run dev')
-    }))
-
-    let testTerm: vscode.Terminal
-    context.subscriptions.push(vscode.window.onDidCloseTerminal((term) => {
-        if (term === testTerm) {
-            testTerm = null
-        }
-    }))
-
-    context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.runTest', async () => {
-        const rootLink = await getRootFolder()
-        if (!rootLink) {
-            return null
-        }
-
-        if (!testTerm) {
-            testTerm = vscode.window.createTerminal('test')
-            testTerm.sendText(changeDirectory(rootLink))
-        }
-
-        testTerm.show(true)
-        testTerm.sendText('npm run test')
-    }))
-
-    let lintTerm: vscode.Terminal
-    context.subscriptions.push(vscode.window.onDidCloseTerminal((term) => {
-        if (term === lintTerm) {
-            lintTerm = null
-        }
-    }))
-
-    context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.runLint', async () => {
-        const rootLink = await getRootFolder()
-        if (!rootLink) {
-            return null
-        }
-
-        if (!lintTerm) {
-            lintTerm = vscode.window.createTerminal('lint')
-            lintTerm.sendText(changeDirectory(rootLink))
-        }
-
-        lintTerm.show(true)
-        lintTerm.sendText('npm run lint')
-    }))
 }
 
-async function getRootFolder() {
-    if (!vscode.workspace.workspaceFolders) {
-        return null
-    }
-
-    const rootList = vscode.workspace.workspaceFolders.filter(item => fs.existsSync(fp.join(item.uri.fsPath, 'package.json')))
-
-    if (rootList.length === 0) {
-        vscode.window.showErrorMessage('Sparrow Keys: package.json file could not be found.')
-        return null
-    }
-
-    if (rootList.length === 1) {
-        return rootList[0]
-    }
-
-    const pickItem = await vscode.window.showQuickPick(rootList.map(item => item.name))
-    if (!pickItem) {
-        return null
-    }
-
-    return vscode.workspace.workspaceFolders.find(item => pickItem === item.name)
-}
-
-function changeDirectory(rootLink: vscode.WorkspaceFolder) {
-    return 'cd "' + rootLink.uri.fsPath.split(fp.sep).join(fp.posix.sep) + '"'
-}
-
-function getGreatestCommonPath(pathList: Array<string>) {
+function getLongestCommonPath(pathList: Array<string>) {
     const workingList = pathList.map(path => path.split(fp.sep))
     const shortestPathCount = _.minBy(workingList, 'length').length
     const commonPathList: Array<string> = []
@@ -249,13 +137,13 @@ async function showFiles(query: string) {
         const currentDirectoryPath = vscode.window.activeTextEditor ? fp.dirname(vscode.window.activeTextEditor.document.fileName) : null
 
         const sortingDirectives = _.compact([
-            currentDirectoryPath && ((link: vscode.Uri) => -getGreatestCommonPath([fp.dirname(link.fsPath), currentDirectoryPath]).split(fp.sep).length),
+            currentDirectoryPath && ((link: vscode.Uri) => -getLongestCommonPath([fp.dirname(link.fsPath), currentDirectoryPath]).split(fp.sep).length),
             (link: vscode.Uri) => vscode.workspace.workspaceFolders.findIndex(workspace => link.fsPath.startsWith(workspace.uri.fsPath)),
             (link: vscode.Uri) => link.fsPath,
         ])
 
         const workspaceList = vscode.workspace.workspaceFolders.map(item => item.uri.fsPath)
-        const commonWorkspacePath = getGreatestCommonPath(workspaceList)
+        const commonWorkspacePath = getLongestCommonPath(workspaceList)
 
         const pickList = _.chain(linkList)
             .sortBy(...sortingDirectives)
