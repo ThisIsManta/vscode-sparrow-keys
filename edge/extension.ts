@@ -98,11 +98,6 @@ export function activate(context: vscode.ExtensionContext) {
         showFiles('**/README.md')
     }))
 
-    context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.focusFile', async () => {
-        await vscode.commands.executeCommand('workbench.files.action.focusFilesExplorer')
-        await vscode.commands.executeCommand('workbench.files.action.showActiveFileInExplorer')
-    }))
-
     context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.renameFile', async () => {
         await vscode.commands.executeCommand('workbench.files.action.focusFilesExplorer')
         await vscode.commands.executeCommand('workbench.files.action.showActiveFileInExplorer')
