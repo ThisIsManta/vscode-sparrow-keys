@@ -27,6 +27,8 @@ export function activate(context: vscode.ExtensionContext) {
     }))
 
     context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.openRecent', () => {
+        vscode.commands.executeCommand('workbench.action.closeQuickOpen')
+
         if (vscode.window.activeTextEditor === undefined) {
             vscode.window.showTextDocument(recentEditors[0].document, vscode.ViewColumn.Active)
             return null
@@ -47,6 +49,8 @@ export function activate(context: vscode.ExtensionContext) {
     }))
 
     context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.openSimilar', async () => {
+        vscode.commands.executeCommand('workbench.action.closeQuickOpen')
+
         if (!vscode.window.activeTextEditor) {
             return null
         }
@@ -91,10 +95,14 @@ export function activate(context: vscode.ExtensionContext) {
     }))
 
     context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.openPackage', async () => {
+        vscode.commands.executeCommand('workbench.action.closeQuickOpen')
+
         showFiles('**/package.json')
     }))
 
     context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.openReadme', async () => {
+        vscode.commands.executeCommand('workbench.action.closeQuickOpen')
+
         showFiles('**/README.md')
     }))
 
