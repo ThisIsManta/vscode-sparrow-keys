@@ -48,26 +48,44 @@
             {
                 "command": "sparrowKeys.openPackage",
                 "title": "Sparrow Keys: Open package.json"
+            },
+            {
+                "command": "sparrowKeys.renameFile",
+                "title": "Sparrow Keys: Rename Active File"
+            },
+            {
+                "command": "sparrowKeys.duplicateFile",
+                "title": "Sparrow Keys: Copy Active File"
             }
         ],
         "keybindings": [
             {
-                "command": "sparrowKeys.openRecent"
+                "key": "f1",
+                "command": "sparrowKeys.openRecent",
+                "when": "inFilesPicker"
             },
             {
-                "command": "sparrowKeys.openSimilar"
+                "key": "f2",
+                "command": "sparrowKeys.openSimilar",
+                "when": "inFilesPicker"
             },
             {
-                "command": "sparrowKeys.openReadme"
+                "key": "f3",
+                "command": "sparrowKeys.openReadme",
+                "when": "inFilesPicker"
             },
             {
-                "command": "sparrowKeys.openPackage"
+                "key": "f4",
+                "command": "sparrowKeys.openPackage",
+                "when": "inFilesPicker"
             },
             {
                 "command": "sparrowKeys.focusFile"
             },
             {
-                "command": "sparrowKeys.renameFile"
+                "key": "shift+f2",
+                "command": "sparrowKeys.renameFile",
+                "when": "editorTextFocus"
             },
             {
                 "command": "sparrowKeys.duplicateFile"
