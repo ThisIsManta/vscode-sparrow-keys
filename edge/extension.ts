@@ -77,7 +77,7 @@ export function activate(context: vscode.ExtensionContext) {
             return null
         }
 
-        const fileRank = fileList.findIndex(nextLink => nextLink.fsPath === fileLink.fsPath)
+        const fileRank = fileList.findIndex(link => link.fsPath === fileLink.fsPath)
         if (fileList.length === 2) {
             if (fileRank >= 0) {
                 const nextLink = fileList.concat(fileList)[fileRank + 1]
@@ -85,7 +85,11 @@ export function activate(context: vscode.ExtensionContext) {
             }
 
         } else {
-            const pickList = _.sortBy(fileList, item => fileList.indexOf(item) >= fileRank ? 0 : 1).map(item => fp.basename(item.fsPath))
+            const pickList = _.chain(fileList)
+                .map((link, rank) => ({ name: fp.basename(link.fsPath), rank: rank <= fileRank ? rank + fileList.length : rank }))
+                .sortBy(item => item.rank)
+                .map(item => item.name)
+                .value()
             const pickItem = await vscode.window.showQuickPick(pickList)
             if (pickItem) {
                 const nextLink = vscode.Uri.file(fp.resolve(filePath, '..', pickItem))

@@ -1,3 +1,6 @@
+### 2.0.1
+- Amended `sparrowKeys.openSimilar` command so it pre-selects the next file first.
+
 ### 2.0.0
 - Removed `sparrowKeys.focusFile`, `sparrowKeys.installPackages`, `sparrowKeys.runDevelop`, `sparrowKeys.runTest`, and `sparrowKeys.runLint` commands.
 - Added default key bindings for some commands.
