@@ -1,4 +1,4 @@
-{a
+{
     "name": "sparrow-keys",
     "displayName": "Manta's Sparrow Keys",
     "description": "Add useful keyboard shortcuts.",
@@ -62,11 +62,6 @@
             {
                 "key": "f1",
                 "command": "sparrowKeys.openRecent",
-                "when": "inQuickOpen"
-            },
-            {
-                "key": "f2",
-                "command": "sparrowKeys.openSimilar",
                 "when": "inQuickOpen"
             },
             {

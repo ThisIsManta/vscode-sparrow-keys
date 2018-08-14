@@ -1,3 +1,6 @@
+### 2.1.0
+- Removed `sparrowKeys.openSimilar` command from the default keybinding in favor of `breadcrumbs.focusAndSelect`.
+
 ### 2.0.1
 - Amended `sparrowKeys.openSimilar` command so it pre-selects the next file first.
 
@@ -9,13 +12,13 @@
 
 ### 1.0.0
 - Added `sparrowKeys.openReadme` command.
-- Amended `sparrowKeys.openPackage` command so it lists all `package.json` in the current working workspace(s).
+- Amended `sparrowKeys.openPackage` command so it lists all _package.json_ in the current working workspace(s).
 
 ### 0.2.1
-- Fixed `sparrowKeys.openPackage` command so it can open `package.json` at the root workspace folder.
+- Fixed `sparrowKeys.openPackage` command so it can open _package.json_ at the root workspace folder.
 
 ### 0.2.0
-- Amended `sparrowKeys.openPackage` command so it lists all `package.json` starting from the current working directory to the workspace.
+- Amended `sparrowKeys.openPackage` command so it lists all _package.json_ starting from the current working directory to the workspace.
 
 ### 0.1.0
 - Amended `sparrowKeys.openRecent` command so it works better with multiple columns.
