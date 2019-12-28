@@ -25,7 +25,7 @@
         "theme": "dark"
     },
     "engines": {
-        "vscode": "^1.18.0"
+        "vscode": "^1.41.0"
     },
     "activationEvents": [
         "*"
@@ -92,20 +92,19 @@
         ]
     },
     "scripts": {
-        "postinstall": "node ./node_modules/vscode/bin/install",
         "compile": "tsc --watch --project ./",
         "vscode:prepublish": "tsc --skipLibCheck --project ./",
+        "preversion": "git push --dry-run origin master:master",
         "version": "vsce publish",
         "postversion": "git push --tags --quiet origin master:master"
     },
     "devDependencies": {
-        "@types/lodash": "^4.14.110",
-        "@types/node": "^8.0.0",
-        "@types/typescript": "^2.0.0",
-        "vscode": "^1.1.18"
+        "@types/lodash": "^4.14.149",
+        "@types/node": "^12.12.22",
+        "vscode": "^1.1.36"
     },
     "dependencies": {
-        "lodash": "^4.17.10",
-        "typescript": "^2.9.2"
+        "lodash": "^4.17.15",
+        "typescript": "^3.7.4"
     }
 }
