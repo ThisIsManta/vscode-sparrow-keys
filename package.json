@@ -88,6 +88,45 @@
                 "key": "ctrl+d",
                 "command": "sparrowKeys.duplicateFile",
                 "when": "explorerViewletVisible && filesExplorerFocus"
+            },
+            {
+                "key": "alt+c",
+                "command": "-toggleFindCaseSensitive"
+            },
+            {
+                "key": "alt+c u",
+                "command": "editor.action.transformToUppercase",
+                "when": "editorTextFocus && !editorReadonly && editorHasSelection"
+            },
+            {
+                "key": "alt+c l",
+                "command": "editor.action.transformToLowercase",
+                "when": "editorTextFocus && !editorReadonly && editorHasSelection"
+            },
+            {
+                "key": "alt+c f",
+                "command": "editor.action.transformToTitlecase",
+                "when": "editorTextFocus && !editorReadonly && editorHasSelection"
+            },
+            {
+                "key": "alt+c c",
+                "command": "sparrowKeys.transformToCamelCase",
+                "when": "editorTextFocus && !editorReadonly && editorHasSelection"
+            },
+            {
+                "key": "alt+c p",
+                "command": "sparrowKeys.transformToPascalCase",
+                "when": "editorTextFocus && !editorReadonly && editorHasSelection"
+            },
+            {
+                "key": "alt+c s",
+                "command": "sparrowKeys.transformToSnakeCase",
+                "when": "editorTextFocus && !editorReadonly && editorHasSelection"
+            },
+            {
+                "key": "alt+c d",
+                "command": "sparrowKeys.transformToDashCase",
+                "when": "editorTextFocus && !editorReadonly && editorHasSelection"
             }
         ]
     },

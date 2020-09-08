@@ -1,3 +1,6 @@
+### 3.0.0
+- Added text transformation commands.
+
 ### 2.0.1
 - Amended `sparrowKeys.openSimilar` command so it pre-selects the next file first.
 

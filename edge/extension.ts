@@ -120,6 +120,29 @@ export function activate(context: vscode.ExtensionContext) {
         await vscode.commands.executeCommand('filesExplorer.copy')
         await vscode.commands.executeCommand('filesExplorer.paste')
     }))
+
+    _.forEach([
+        { command: 'sparrowKeys.transformToCamelCase', transformer: _.camelCase },
+        { command: 'sparrowKeys.transformToPascalCase', transformer: (text) => _.upperFirst(_.camelCase(text)) },
+        { command: 'sparrowKeys.transformToSnakeCase', transformer: _.snakeCase },
+        { command: 'sparrowKeys.transformToDashCase', transformer: _.kebabCase },
+    ], ({ command, transformer }) => {
+        context.subscriptions.push(vscode.commands.registerCommand(command, async () => {
+            await transformText(transformer)
+        }))
+    })
+}
+
+async function transformText(f: (text: string) => string) {
+    const editor = vscode.window.activeTextEditor
+    if (editor) {
+        await editor.edit(edit => {
+            for (const selection of editor.selections) {
+                const text = editor.document.getText(selection)
+                edit.replace(selection, f(text))
+            }
+        })
+    }
 }
 
 function getLongestCommonPath(pathList: Array<string>) {
