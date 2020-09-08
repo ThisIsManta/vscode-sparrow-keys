@@ -60,6 +60,22 @@ export function activate(context: vscode.ExtensionContext) {
         showFiles('**/README.md')
     }))
 
+    context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.insertFile', async () => {
+        const editor = vscode.window.activeTextEditor
+        if (editor) {
+            const fileName = fp.basename(editor.document.fileName).replace(/\..+/, '')
+            if (fileName) {
+                vscode.env.clipboard.writeText(fileName)
+
+                editor.edit((edit) => {
+                    for (const selection of editor.selections) {
+                        edit.replace(selection, fileName)
+                    }
+                })
+            }
+        }
+    }))
+
     context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.renameFile', async () => {
         await vscode.commands.executeCommand('workbench.files.action.focusFilesExplorer')
         await vscode.commands.executeCommand('workbench.files.action.showActiveFileInExplorer')

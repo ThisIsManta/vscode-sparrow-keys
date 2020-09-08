@@ -46,12 +46,16 @@
                 "title": "Sparrow Keys: Open package.json"
             },
             {
+                "command": "sparrowKeys.insertFile",
+                "title": "Sparrow Keys: Insert Name of Active File"
+            },
+            {
                 "command": "sparrowKeys.renameFile",
                 "title": "Sparrow Keys: Rename Active File"
             },
             {
                 "command": "sparrowKeys.duplicateFile",
-                "title": "Sparrow Keys: Copy Active File"
+                "title": "Sparrow Keys: Duplicate Active File"
             }
         ],
         "keybindings": [
@@ -74,6 +78,11 @@
                 "key": "f4",
                 "command": "sparrowKeys.openPackage",
                 "when": "inQuickOpen"
+            },
+            {
+                "key": "alt+e",
+                "command": "sparrowKeys.insertFile",
+                "when": "editorTextFocus"
             },
             {
                 "key": "shift+f2",

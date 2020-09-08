@@ -1,5 +1,6 @@
 ### 3.0.0
 - Added text transformation commands.
+- Added `sparrowKeys.insertFile` command.
 - Removed `sparrowKeys.openSimilar` command in favor of the built-in breadcrumbs.
 
 ### 2.0.1
