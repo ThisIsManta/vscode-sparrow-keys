@@ -7,7 +7,8 @@
             "es6"
         ],
         "sourceMap": true,
-        "rootDir": "edge"
+        "rootDir": "edge",
+        "strictNullChecks": true
     },
     "exclude": [
         "node_modules",

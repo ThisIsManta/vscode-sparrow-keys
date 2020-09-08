@@ -3,7 +3,7 @@ import * as vscode from 'vscode'
 import * as _ from 'lodash'
 
 export function activate(context: vscode.ExtensionContext) {
-    const recentEditors: Array<{ document: vscode.TextDocument, viewColumn: vscode.ViewColumn }> = []
+    const recentEditors: Array<{ document: vscode.TextDocument, viewColumn: vscode.ViewColumn | undefined }> = []
 
     context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(activeEditor => {
         if (activeEditor === undefined) {
@@ -35,21 +35,21 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         if (vscode.window.visibleTextEditors.length > 1) {
-            const recentEditor = recentEditors.find(editor => editor.document.fileName !== vscode.window.activeTextEditor.document.fileName && editor.viewColumn === vscode.window.activeTextEditor.viewColumn)
+            const recentEditor = recentEditors.find(editor => editor.document.fileName !== vscode.window.activeTextEditor?.document.fileName && editor.viewColumn === vscode.window.activeTextEditor?.viewColumn)
             if (recentEditor) {
                 vscode.window.showTextDocument(recentEditor.document, recentEditor.viewColumn)
                 return null
             }
         }
 
-        const recentEditor = recentEditors.find(editor => editor.document.fileName !== vscode.window.activeTextEditor.document.fileName)
+        const recentEditor = recentEditors.find(editor => editor.document.fileName !== vscode.window.activeTextEditor?.document.fileName)
         if (recentEditor !== undefined) {
             vscode.window.showTextDocument(recentEditor.document, recentEditor.viewColumn)
         }
     }))
 
     context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.openSimilar', async () => {
-        vscode.commands.executeCommand('workbench.action.closeQuickOpen')
+        await vscode.commands.executeCommand('workbench.action.closeQuickOpen')
 
         if (!vscode.window.activeTextEditor) {
             return null
@@ -99,13 +99,13 @@ export function activate(context: vscode.ExtensionContext) {
     }))
 
     context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.openPackage', async () => {
-        vscode.commands.executeCommand('workbench.action.closeQuickOpen')
+        await vscode.commands.executeCommand('workbench.action.closeQuickOpen')
 
         showFiles('**/package.json')
     }))
 
     context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.openReadme', async () => {
-        vscode.commands.executeCommand('workbench.action.closeQuickOpen')
+        await vscode.commands.executeCommand('workbench.action.closeQuickOpen')
 
         showFiles('**/README.md')
     }))
@@ -147,7 +147,7 @@ async function transformText(f: (text: string) => string) {
 
 function getLongestCommonPath(pathList: Array<string>) {
     const workingList = pathList.map(path => path.split(fp.sep))
-    const shortestPathCount = _.minBy(workingList, 'length').length
+    const shortestPathCount = _.minBy(workingList, list => list.length)?.length ?? 0
     const commonPathList: Array<string> = []
     for (let index = 0; index <= shortestPathCount; index++) {
         if (workingList.every(items => items[index] === workingList[0][index])) {
@@ -160,37 +160,45 @@ function getLongestCommonPath(pathList: Array<string>) {
 }
 
 async function showFiles(query: string) {
+    const workspaces = vscode.workspace.workspaceFolders
+    if (!workspaces) {
+        return
+    }
+
     const linkList = await vscode.workspace.findFiles(query)
+    if (linkList.length === 0) {
+        return
+    }
+
     if (linkList.length === 1) {
         vscode.window.showTextDocument(linkList[0])
+        return
+    }
 
-    } else if (linkList.length > 1) {
+    const sortingDirectives = _.compact([
+        (link: vscode.Uri) => workspaces.findIndex(workspace => link.fsPath.startsWith(workspace.uri.fsPath)),
+        (link: vscode.Uri) => fp.dirname(link.fsPath),
+    ])
 
-        const sortingDirectives = _.compact([
-            (link: vscode.Uri) => vscode.workspace.workspaceFolders.findIndex(workspace => link.fsPath.startsWith(workspace.uri.fsPath)),
-            (link: vscode.Uri) => fp.dirname(link.fsPath),
-        ])
+    if (vscode.window.activeTextEditor) {
+        const currentDirectoryPath = fp.dirname(vscode.window.activeTextEditor.document.fileName)
+        const longestCommonLink = _.maxBy(linkList, link => getLongestCommonPath([fp.dirname(link.fsPath), currentDirectoryPath]).split(fp.sep).length)!
+        sortingDirectives.unshift((link: vscode.Uri) => link.fsPath === longestCommonLink.fsPath ? 1 : 2)
+    }
 
-        if (vscode.window.activeTextEditor) {
-            const currentDirectoryPath = fp.dirname(vscode.window.activeTextEditor.document.fileName)
-            const longestCommonLink = _.maxBy(linkList, link => getLongestCommonPath([fp.dirname(link.fsPath), currentDirectoryPath]).split(fp.sep).length)
-            sortingDirectives.unshift((link: vscode.Uri) => link.fsPath === longestCommonLink.fsPath ? 1 : 2)
-        }
+    const workspacePathList = workspaces.map(item => item.uri.fsPath)
+    const workspaceCommonPath = getLongestCommonPath(workspacePathList)
 
-        const workspacePathList = vscode.workspace.workspaceFolders.map(item => item.uri.fsPath)
-        const workspaceCommonPath = getLongestCommonPath(workspacePathList)
-
-        const pickList = _.chain(linkList)
-            .sortBy(...sortingDirectives)
-            .map(link => ({
-                label: fp.basename(link.fsPath),
-                description: fp.dirname(link.fsPath).substring(workspaceCommonPath.length),
-                link,
-            }))
-            .value()
-        const pickItem = await vscode.window.showQuickPick(pickList, { matchOnDescription: true })
-        if (pickItem) {
-            vscode.window.showTextDocument(pickItem.link)
-        }
+    const pickList = _.chain(linkList)
+        .sortBy(...sortingDirectives)
+        .map(link => ({
+            label: fp.basename(link.fsPath),
+            description: fp.dirname(link.fsPath).substring(workspaceCommonPath.length),
+            link,
+        }))
+        .value()
+    const pickItem = await vscode.window.showQuickPick(pickList, { matchOnDescription: true })
+    if (pickItem) {
+        vscode.window.showTextDocument(pickItem.link)
     }
 }
