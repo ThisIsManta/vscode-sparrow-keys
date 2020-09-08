@@ -38,10 +38,6 @@
                 "title": "Sparrow Keys: Open Recent File"
             },
             {
-                "command": "sparrowKeys.openSimilar",
-                "title": "Sparrow Keys: Open Similar File"
-            },
-            {
                 "command": "sparrowKeys.openReadme",
                 "title": "Sparrow Keys: Open README.md"
             },
@@ -66,7 +62,7 @@
             },
             {
                 "key": "f2",
-                "command": "sparrowKeys.openSimilar",
+                "command": "breadcrumbs.focusAndSelect",
                 "when": "inQuickOpen"
             },
             {

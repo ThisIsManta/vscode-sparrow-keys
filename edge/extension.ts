@@ -48,56 +48,6 @@ export function activate(context: vscode.ExtensionContext) {
         }
     }))
 
-    context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.openSimilar', async () => {
-        await vscode.commands.executeCommand('workbench.action.closeQuickOpen')
-
-        if (!vscode.window.activeTextEditor) {
-            return null
-        }
-
-        const fileLink = vscode.window.activeTextEditor.document.uri
-        const rootLink = vscode.workspace.getWorkspaceFolder(fileLink)
-        if (!rootLink) {
-            return null
-        }
-
-        const filePath = vscode.window.activeTextEditor.document.uri.fsPath
-        const fileName = fp.basename(filePath)
-        if (fileName.startsWith('.') || fileName.includes('.') === false) {
-            return null
-        }
-
-        const relaPath = filePath.substring(rootLink.uri.fsPath.length)
-        const dirxPath = fp.dirname(relaPath)
-        const lazyName = fileName.replace(/\..+/, '')
-        const lazyPath = (dirxPath + '/' + lazyName).replace(/\\/g, '/').replace(/^\//, '')
-
-        const fileList = await vscode.workspace.findFiles(lazyPath + '.*')
-        if (fileList.length <= 1) {
-            return null
-        }
-
-        const fileRank = fileList.findIndex(link => link.fsPath === fileLink.fsPath)
-        if (fileList.length === 2) {
-            if (fileRank >= 0) {
-                const nextLink = fileList.concat(fileList)[fileRank + 1]
-                vscode.window.showTextDocument(nextLink)
-            }
-
-        } else {
-            const pickList = _.chain(fileList)
-                .map((link, rank) => ({ name: fp.basename(link.fsPath), rank: rank <= fileRank ? rank + fileList.length : rank }))
-                .sortBy(item => item.rank)
-                .map(item => item.name)
-                .value()
-            const pickItem = await vscode.window.showQuickPick(pickList)
-            if (pickItem) {
-                const nextLink = vscode.Uri.file(fp.resolve(filePath, '..', pickItem))
-                vscode.window.showTextDocument(nextLink)
-            }
-        }
-    }))
-
     context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.openPackage', async () => {
         await vscode.commands.executeCommand('workbench.action.closeQuickOpen')
 
