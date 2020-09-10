@@ -1,5 +1,6 @@
 ### 3.0.1
 - Fixed error disabling built-in command.
+- Amended shortcut keys for text transformation commands.
 
 ### 3.0.0
 - Added text transformation commands.

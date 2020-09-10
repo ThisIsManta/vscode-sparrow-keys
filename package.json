@@ -95,37 +95,37 @@
                 "when": "explorerViewletVisible && filesExplorerFocus"
             },
             {
-                "key": "alt+c u",
+                "key": "alt+t u",
                 "command": "editor.action.transformToUppercase",
                 "when": "editorTextFocus && !editorReadonly && editorHasSelection"
             },
             {
-                "key": "alt+c l",
+                "key": "alt+t l",
                 "command": "editor.action.transformToLowercase",
                 "when": "editorTextFocus && !editorReadonly && editorHasSelection"
             },
             {
-                "key": "alt+c f",
+                "key": "alt+t f",
                 "command": "editor.action.transformToTitlecase",
                 "when": "editorTextFocus && !editorReadonly && editorHasSelection"
             },
             {
-                "key": "alt+c c",
+                "key": "alt+t c",
                 "command": "sparrowKeys.transformToCamelCase",
                 "when": "editorTextFocus && !editorReadonly && editorHasSelection"
             },
             {
-                "key": "alt+c p",
+                "key": "alt+t p",
                 "command": "sparrowKeys.transformToPascalCase",
                 "when": "editorTextFocus && !editorReadonly && editorHasSelection"
             },
             {
-                "key": "alt+c s",
+                "key": "alt+t s",
                 "command": "sparrowKeys.transformToSnakeCase",
                 "when": "editorTextFocus && !editorReadonly && editorHasSelection"
             },
             {
-                "key": "alt+c d",
+                "key": "alt+t d",
                 "command": "sparrowKeys.transformToDashCase",
                 "when": "editorTextFocus && !editorReadonly && editorHasSelection"
             }

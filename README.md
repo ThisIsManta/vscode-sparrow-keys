@@ -12,10 +12,10 @@ As soon as **Sparrow Keys** is installed, the extension offers the following key
 |`sparrowKeys.insertFile`<br>(alt+e)|Copy and paste the current active file name without its file extension and suffix immediately.|
 |`sparrowKeys.renameFile`<br>(shift+f2)|Trigger `workbench.files.action.focusFilesExplorer`, `workbench.files.action.showActiveFileInExplorer`, and `renameFile` commands respectively.|
 |`sparrowKeys.duplicateFile`<br>(ctrl+d)|Trigger `filesExplorer.copy` and `filesExplorer.paste` commands respectively. This must be called when you focus on the files explorer only.|
-|`editor.action.transformToUppercase`<br>(alt+c u)|Convert the selected text to all upper case.|
-|`editor.action.transformToLowercase`<br>(alt+c l)|Convert the selected text to all lower case.|
-|`editor.action.transformToTitlecase`<br>(alt+c f)|Convert the selected text to capitalized-each word.|
-|`sparrowKeys.transformToCamelCase`<br>(alt+c c)|Convert the selected text to all camel case, for example `camelCase`.|
-|`sparrowKeys.transformToPascalCase`<br>(alt+c p)|Convert the selected text to all Pascal case, for example `PascalCase`.|
-|`sparrowKeys.transformToSnakeCase`<br>(alt+c s)|Convert the selected text to all snake case, for example `snake_case`.|
-|`sparrowKeys.transformToDashCase`<br>(alt+c d)|Convert the selected text to all dash case, for example `dash-case`.|
+|`editor.action.transformToUppercase`<br>(alt+t u)|Convert the selected text to all upper case.|
+|`editor.action.transformToLowercase`<br>(alt+t l)|Convert the selected text to all lower case.|
+|`editor.action.transformToTitlecase`<br>(alt+t f)|Convert the selected text to capitalized-each word.|
+|`sparrowKeys.transformToCamelCase`<br>(alt+t c)|Convert the selected text to all camel case, for example `camelCase`.|
+|`sparrowKeys.transformToPascalCase`<br>(alt+t p)|Convert the selected text to all Pascal case, for example `PascalCase`.|
+|`sparrowKeys.transformToSnakeCase`<br>(alt+t s)|Convert the selected text to all snake case, for example `snake_case`.|
+|`sparrowKeys.transformToDashCase`<br>(alt+t d)|Convert the selected text to all dash case, for example `dash-case`.|
