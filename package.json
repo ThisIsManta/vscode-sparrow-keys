@@ -95,10 +95,6 @@
                 "when": "explorerViewletVisible && filesExplorerFocus"
             },
             {
-                "key": "alt+c",
-                "command": "-toggleFindCaseSensitive"
-            },
-            {
                 "key": "alt+c u",
                 "command": "editor.action.transformToUppercase",
                 "when": "editorTextFocus && !editorReadonly && editorHasSelection"

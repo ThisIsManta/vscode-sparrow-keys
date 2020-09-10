@@ -1,3 +1,6 @@
+### 3.0.1
+- Fixed error disabling built-in command.
+
 ### 3.0.0
 - Added text transformation commands.
 - Added `sparrowKeys.insertFile` command.
