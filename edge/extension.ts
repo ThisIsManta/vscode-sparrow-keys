@@ -1,6 +1,13 @@
 import * as fp from 'path'
 import * as vscode from 'vscode'
-import * as _ from 'lodash'
+import compact from 'lodash/compact'
+import minBy from 'lodash/minBy'
+import maxBy from 'lodash/maxBy'
+import sortBy from 'lodash/sortBy'
+import camelCase from 'lodash/camelCase'
+import snakeCase from 'lodash/snakeCase'
+import kebabCase from 'lodash/kebabCase'
+import upperFirst from 'lodash/upperFirst'
 
 export function activate(context: vscode.ExtensionContext) {
 	const recentEditors: Array<{ document: vscode.TextDocument, viewColumn: vscode.ViewColumn | undefined }> = []
@@ -87,16 +94,17 @@ export function activate(context: vscode.ExtensionContext) {
 		await vscode.commands.executeCommand('filesExplorer.paste')
 	}))
 
-	_.forEach([
-		{ command: 'sparrowKeys.transformToCamelCase', transformer: _.camelCase },
-		{ command: 'sparrowKeys.transformToPascalCase', transformer: (text) => _.upperFirst(_.camelCase(text)) },
-		{ command: 'sparrowKeys.transformToSnakeCase', transformer: _.snakeCase },
-		{ command: 'sparrowKeys.transformToDashCase', transformer: _.kebabCase },
-	], ({ command, transformer }) => {
+	const casingCommands = [
+		{ command: 'sparrowKeys.transformToCamelCase', transformer: camelCase },
+		{ command: 'sparrowKeys.transformToPascalCase', transformer: (text) => upperFirst(camelCase(text)) },
+		{ command: 'sparrowKeys.transformToSnakeCase', transformer: snakeCase },
+		{ command: 'sparrowKeys.transformToDashCase', transformer: kebabCase },
+	]
+	for (const { command, transformer } of casingCommands) {
 		context.subscriptions.push(vscode.commands.registerCommand(command, async () => {
 			await transformText(transformer)
 		}))
-	})
+	}
 }
 
 async function transformText(f: (text: string) => string) {
@@ -113,7 +121,7 @@ async function transformText(f: (text: string) => string) {
 
 function getLongestCommonPath(pathList: Array<string>) {
 	const workingList = pathList.map(path => path.split(fp.sep))
-	const shortestPathCount = _.minBy(workingList, list => list.length)?.length ?? 0
+	const shortestPathCount = minBy(workingList, list => list.length)?.length ?? 0
 	const commonPathList: Array<string> = []
 	for (let index = 0; index <= shortestPathCount; index++) {
 		if (workingList.every(items => items[index] === workingList[0][index])) {
@@ -141,28 +149,26 @@ async function showFiles(query: string) {
 		return
 	}
 
-	const sortingDirectives = _.compact([
+	const sortingDirectives = compact([
 		(link: vscode.Uri) => workspaces.findIndex(workspace => link.fsPath.startsWith(workspace.uri.fsPath)),
 		(link: vscode.Uri) => fp.dirname(link.fsPath),
 	])
 
 	if (vscode.window.activeTextEditor) {
 		const currentDirectoryPath = fp.dirname(vscode.window.activeTextEditor.document.fileName)
-		const longestCommonLink = _.maxBy(linkList, link => getLongestCommonPath([fp.dirname(link.fsPath), currentDirectoryPath]).split(fp.sep).length)!
+		const longestCommonLink = maxBy(linkList, link => getLongestCommonPath([fp.dirname(link.fsPath), currentDirectoryPath]).split(fp.sep).length)!
 		sortingDirectives.unshift((link: vscode.Uri) => link.fsPath === longestCommonLink.fsPath ? 1 : 2)
 	}
 
 	const workspacePathList = workspaces.map(item => item.uri.fsPath)
 	const workspaceCommonPath = getLongestCommonPath(workspacePathList)
 
-	const pickList = _.chain(linkList)
-		.sortBy(...sortingDirectives)
+	const pickList = sortBy(linkList, ...sortingDirectives)
 		.map(link => ({
 			label: fp.basename(link.fsPath),
 			description: fp.dirname(link.fsPath).substring(workspaceCommonPath.length),
 			link,
 		}))
-		.value()
 	const pickItem = await vscode.window.showQuickPick(pickList, { matchOnDescription: true })
 	if (pickItem) {
 		vscode.window.showTextDocument(pickItem.link)

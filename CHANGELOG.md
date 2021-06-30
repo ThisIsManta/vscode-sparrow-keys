@@ -1,3 +1,6 @@
+### 3.1.0
+- Reduced start-up time.
+
 ### 3.0.1
 - Fixed error disabling built-in command.
 - Amended shortcut keys for text transformation commands.
