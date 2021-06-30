@@ -1,150 +1,150 @@
 {
-    "name": "sparrow-keys",
-    "displayName": "Manta's Sparrow Keys",
-    "description": "Add useful keyboard shortcuts.",
-    "version": "3.0.1",
-    "publisher": "thisismanta",
-    "categories": [
-        "Keymaps",
-        "Other"
-    ],
-    "keywords": [
-        "file",
-        "npm",
-        "keybindings"
-    ],
-    "repository": {
-        "url": "https://github.com/ThisIsManta/vscode-sparrow-keys"
-    },
-    "bugs": {
-        "url": "https://github.com/ThisIsManta/vscode-sparrow-keys/issues"
-    },
-    "icon": "docs/logo.png",
-    "galleryBanner": {
-        "color": "#212121",
-        "theme": "dark"
-    },
-    "engines": {
-        "vscode": "^1.48.0"
-    },
-    "activationEvents": [
-        "*"
-    ],
-    "main": "./dist/extension",
-    "contributes": {
-        "commands": [
-            {
-                "command": "sparrowKeys.openRecent",
-                "title": "Sparrow Keys: Open Recent File"
-            },
-            {
-                "command": "sparrowKeys.openReadme",
-                "title": "Sparrow Keys: Open README.md"
-            },
-            {
-                "command": "sparrowKeys.openPackage",
-                "title": "Sparrow Keys: Open package.json"
-            },
-            {
-                "command": "sparrowKeys.insertFile",
-                "title": "Sparrow Keys: Insert Name of Active File"
-            },
-            {
-                "command": "sparrowKeys.renameFile",
-                "title": "Sparrow Keys: Rename Active File"
-            },
-            {
-                "command": "sparrowKeys.duplicateFile",
-                "title": "Sparrow Keys: Duplicate Active File"
-            }
-        ],
-        "keybindings": [
-            {
-                "key": "f1",
-                "command": "sparrowKeys.openRecent",
-                "when": "inQuickOpen"
-            },
-            {
-                "key": "f2",
-                "command": "breadcrumbs.focusAndSelect",
-                "when": "inQuickOpen"
-            },
-            {
-                "key": "f3",
-                "command": "sparrowKeys.openReadme",
-                "when": "inQuickOpen"
-            },
-            {
-                "key": "f4",
-                "command": "sparrowKeys.openPackage",
-                "when": "inQuickOpen"
-            },
-            {
-                "key": "alt+e",
-                "command": "sparrowKeys.insertFile",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "shift+f2",
-                "command": "sparrowKeys.renameFile",
-                "when": "editorTextFocus"
-            },
-            {
-                "key": "ctrl+d",
-                "command": "sparrowKeys.duplicateFile",
-                "when": "explorerViewletVisible && filesExplorerFocus"
-            },
-            {
-                "key": "alt+t u",
-                "command": "editor.action.transformToUppercase",
-                "when": "editorTextFocus && !editorReadonly && editorHasSelection"
-            },
-            {
-                "key": "alt+t l",
-                "command": "editor.action.transformToLowercase",
-                "when": "editorTextFocus && !editorReadonly && editorHasSelection"
-            },
-            {
-                "key": "alt+t f",
-                "command": "editor.action.transformToTitlecase",
-                "when": "editorTextFocus && !editorReadonly && editorHasSelection"
-            },
-            {
-                "key": "alt+t c",
-                "command": "sparrowKeys.transformToCamelCase",
-                "when": "editorTextFocus && !editorReadonly && editorHasSelection"
-            },
-            {
-                "key": "alt+t p",
-                "command": "sparrowKeys.transformToPascalCase",
-                "when": "editorTextFocus && !editorReadonly && editorHasSelection"
-            },
-            {
-                "key": "alt+t s",
-                "command": "sparrowKeys.transformToSnakeCase",
-                "when": "editorTextFocus && !editorReadonly && editorHasSelection"
-            },
-            {
-                "key": "alt+t d",
-                "command": "sparrowKeys.transformToDashCase",
-                "when": "editorTextFocus && !editorReadonly && editorHasSelection"
-            }
-        ]
-    },
-    "scripts": {
-        "compile": "tsc --watch --project ./",
-        "vscode:prepublish": "tsc --skipLibCheck --project ./",
-        "preversion": "git push --dry-run origin master:master",
-        "version": "vsce publish",
-        "postversion": "git push --tags --quiet origin master:master"
-    },
-    "devDependencies": {
-        "@types/lodash": "^4.14.161",
-        "@types/node": "^14.6.4",
-        "vscode": "^1.1.37"
-    },
-    "dependencies": {
-        "lodash": "^4.17.20",
-        "typescript": "^4.0.2"
-    }
+	"name": "sparrow-keys",
+	"displayName": "Manta's Sparrow Keys",
+	"description": "Add useful keyboard shortcuts.",
+	"version": "3.0.1",
+	"publisher": "thisismanta",
+	"categories": [
+		"Keymaps",
+		"Other"
+	],
+	"keywords": [
+		"file",
+		"npm",
+		"keybindings"
+	],
+	"repository": {
+		"url": "https://github.com/ThisIsManta/vscode-sparrow-keys"
+	},
+	"bugs": {
+		"url": "https://github.com/ThisIsManta/vscode-sparrow-keys/issues"
+	},
+	"icon": "docs/logo.png",
+	"galleryBanner": {
+		"color": "#212121",
+		"theme": "dark"
+	},
+	"engines": {
+		"vscode": "^1.48.0"
+	},
+	"activationEvents": [
+		"*"
+	],
+	"main": "./dist/extension",
+	"contributes": {
+		"commands": [
+			{
+				"command": "sparrowKeys.openRecent",
+				"title": "Sparrow Keys: Open Recent File"
+			},
+			{
+				"command": "sparrowKeys.openReadme",
+				"title": "Sparrow Keys: Open README.md"
+			},
+			{
+				"command": "sparrowKeys.openPackage",
+				"title": "Sparrow Keys: Open package.json"
+			},
+			{
+				"command": "sparrowKeys.insertFile",
+				"title": "Sparrow Keys: Insert Name of Active File"
+			},
+			{
+				"command": "sparrowKeys.renameFile",
+				"title": "Sparrow Keys: Rename Active File"
+			},
+			{
+				"command": "sparrowKeys.duplicateFile",
+				"title": "Sparrow Keys: Duplicate Active File"
+			}
+		],
+		"keybindings": [
+			{
+				"key": "f1",
+				"command": "sparrowKeys.openRecent",
+				"when": "inQuickOpen"
+			},
+			{
+				"key": "f2",
+				"command": "breadcrumbs.focusAndSelect",
+				"when": "inQuickOpen"
+			},
+			{
+				"key": "f3",
+				"command": "sparrowKeys.openReadme",
+				"when": "inQuickOpen"
+			},
+			{
+				"key": "f4",
+				"command": "sparrowKeys.openPackage",
+				"when": "inQuickOpen"
+			},
+			{
+				"key": "alt+e",
+				"command": "sparrowKeys.insertFile",
+				"when": "editorTextFocus"
+			},
+			{
+				"key": "shift+f2",
+				"command": "sparrowKeys.renameFile",
+				"when": "editorTextFocus"
+			},
+			{
+				"key": "ctrl+d",
+				"command": "sparrowKeys.duplicateFile",
+				"when": "explorerViewletVisible && filesExplorerFocus"
+			},
+			{
+				"key": "alt+t u",
+				"command": "editor.action.transformToUppercase",
+				"when": "editorTextFocus && !editorReadonly && editorHasSelection"
+			},
+			{
+				"key": "alt+t l",
+				"command": "editor.action.transformToLowercase",
+				"when": "editorTextFocus && !editorReadonly && editorHasSelection"
+			},
+			{
+				"key": "alt+t f",
+				"command": "editor.action.transformToTitlecase",
+				"when": "editorTextFocus && !editorReadonly && editorHasSelection"
+			},
+			{
+				"key": "alt+t c",
+				"command": "sparrowKeys.transformToCamelCase",
+				"when": "editorTextFocus && !editorReadonly && editorHasSelection"
+			},
+			{
+				"key": "alt+t p",
+				"command": "sparrowKeys.transformToPascalCase",
+				"when": "editorTextFocus && !editorReadonly && editorHasSelection"
+			},
+			{
+				"key": "alt+t s",
+				"command": "sparrowKeys.transformToSnakeCase",
+				"when": "editorTextFocus && !editorReadonly && editorHasSelection"
+			},
+			{
+				"key": "alt+t d",
+				"command": "sparrowKeys.transformToDashCase",
+				"when": "editorTextFocus && !editorReadonly && editorHasSelection"
+			}
+		]
+	},
+	"scripts": {
+		"compile": "tsc --watch --project ./",
+		"vscode:prepublish": "tsc --skipLibCheck --project ./",
+		"preversion": "git push --dry-run origin master:master",
+		"version": "vsce publish",
+		"postversion": "git push --tags --quiet origin master:master"
+	},
+	"devDependencies": {
+		"@types/lodash": "^4.14.161",
+		"@types/node": "^14.6.4",
+		"vscode": "^1.1.37"
+	},
+	"dependencies": {
+		"lodash": "^4.17.20",
+		"typescript": "^4.0.2"
+	}
 }
