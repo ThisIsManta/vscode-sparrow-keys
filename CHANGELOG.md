@@ -1,3 +1,6 @@
+### 3.1.1
+- Upgraded dependencies.
+
 ### 3.1.0
 - Reduced start-up time.
 
