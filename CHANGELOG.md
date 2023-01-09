@@ -1,4 +1,5 @@
 ### 3.2.0
+- Add `sparrowKeys.openLockfile` command.
 - Fix broken breadcrumbs keyboard shortcut.
 
 ### 3.1.2

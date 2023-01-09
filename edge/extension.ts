@@ -73,6 +73,12 @@ export function activate(context: vscode.ExtensionContext) {
 		showFiles('**/README.md')
 	}))
 
+	context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.openLockfile', async () => {
+		await vscode.commands.executeCommand('workbench.action.closeQuickOpen')
+
+		showFiles('**/{package-lock.json,yarn.lock,pnpm-lock.yaml}')
+	}))
+
 	context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.insertFile', async () => {
 		const editor = vscode.window.activeTextEditor
 		if (editor) {

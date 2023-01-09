@@ -54,6 +54,10 @@
 				"title": "Sparrow Keys: Open package.json"
 			},
 			{
+				"command": "sparrowKeys.openLockfile",
+				"title": "Sparrow Keys: Open lockfile"
+			},
+			{
 				"command": "sparrowKeys.insertFile",
 				"title": "Sparrow Keys: Insert Name of Active File"
 			},
@@ -85,6 +89,11 @@
 			{
 				"key": "f4",
 				"command": "sparrowKeys.openPackage",
+				"when": "inQuickOpen"
+			},
+			{
+				"key": "f5",
+				"command": "sparrowKeys.openLockfile",
 				"when": "inQuickOpen"
 			},
 			{
