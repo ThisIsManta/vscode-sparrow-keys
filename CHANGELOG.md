@@ -1,3 +1,6 @@
+### 3.2.0
+- Fix broken breadcrumbs keyboard shortcut.
+
 ### 3.1.2
 - Upgrade dependencies.
 

@@ -55,6 +55,12 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	}))
 
+	context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.openBreadcrumbs', async () => {
+		await vscode.commands.executeCommand('workbench.action.closeQuickOpen')
+
+		await vscode.commands.executeCommand('breadcrumbs.focusAndSelect')
+	}))
+
 	context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.openPackage', async () => {
 		await vscode.commands.executeCommand('workbench.action.closeQuickOpen')
 

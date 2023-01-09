@@ -42,6 +42,10 @@
 				"title": "Sparrow Keys: Open Recent File"
 			},
 			{
+				"command": "sparrowKeys.openBreadcrumbs",
+				"title": "Sparrow Keys: Show Breadcrumbs"
+			},
+			{
 				"command": "sparrowKeys.openReadme",
 				"title": "Sparrow Keys: Open README.md"
 			},
@@ -70,7 +74,7 @@
 			},
 			{
 				"key": "f2",
-				"command": "breadcrumbs.focusAndSelect",
+				"command": "sparrowKeys.openBreadcrumbs",
 				"when": "inQuickOpen"
 			},
 			{
