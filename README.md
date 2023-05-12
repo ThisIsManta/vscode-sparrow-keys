@@ -12,6 +12,7 @@ As soon as **Sparrow Keys** is installed, the extension offers the following key
 |`sparrowKeys.insertFile`<br>(alt+e)|Copy and paste the current active file name without its file extension and suffix immediately.|
 |`sparrowKeys.renameFile`<br>(shift+f2)|Trigger `workbench.files.action.focusFilesExplorer`, `workbench.files.action.showActiveFileInExplorer`, and `renameFile` commands respectively.|
 |`sparrowKeys.duplicateFile`<br>(ctrl+d)|Trigger `filesExplorer.copy` and `filesExplorer.paste` commands respectively. This must be called when you focus on the files explorer only.|
+|`sparrowKeys.insertLog`<br>(alt+c)|.Insert `console.debug(...)` into the current JavaScript/TypeScript file semantically.|
 |`editor.action.transformToUppercase`<br>(alt+t u)|Convert the selected text to all upper case.|
 |`editor.action.transformToLowercase`<br>(alt+t l)|Convert the selected text to all lower case.|
 |`editor.action.transformToTitlecase`<br>(alt+t f)|Convert the selected text to capitalized-each word.|

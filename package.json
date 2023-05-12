@@ -112,6 +112,11 @@
 				"when": "explorerViewletVisible && filesExplorerFocus"
 			},
 			{
+				"key": "alt+c",
+				"command": "sparrowKeys.insertLog",
+				"when": "editorTextFocus && !editorReadonly && editorLangId =~ /^(java|type)script/"
+			},
+			{
 				"key": "alt+t u",
 				"command": "editor.action.transformToUppercase",
 				"when": "editorTextFocus && !editorReadonly && editorHasSelection"
@@ -161,7 +166,9 @@
 		"@types/node": ">=18.0.0",
 		"@types/vscode": "^1.73.0",
 		"esbuild": "^0.17.18",
-		"lodash": "^4.17.21",
+		"lodash": "^4.17.21"
+	},
+	"dependencies": {
 		"typescript": "^5.0.4"
 	}
 }
