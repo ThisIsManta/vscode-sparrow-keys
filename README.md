@@ -9,7 +9,6 @@
 |**Alt+E**|Copy and paste the current active file name without its file extension and suffix immediately.|
 |**Shift+F2**|Trigger `workbench.files.action.focusFilesExplorer`, `workbench.files.action.showActiveFileInExplorer`, and `renameFile` commands respectively.|
 |**Ctrl+D**|Trigger `filesExplorer.copy` and `filesExplorer.paste` commands respectively. This must be called when you focus on the files explorer only.|
-|**Alt+C**|Insert `console.debug(...)` into the current JavaScript/TypeScript file semantically.|
 |**Alt+T U**|Convert the selected text to all upper case.|
 |**Alt+T L**|Convert the selected text to all lower case.|
 |**Alt+T F**|Convert the selected text to capitalized-each word.|

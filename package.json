@@ -112,11 +112,6 @@
 				"when": "explorerViewletVisible && filesExplorerFocus"
 			},
 			{
-				"key": "alt+c",
-				"command": "sparrowKeys.insertLog",
-				"when": "editorTextFocus && !editorReadonly && editorLangId =~ /^(java|type)script/"
-			},
-			{
 				"key": "alt+t u",
 				"command": "editor.action.transformToUppercase",
 				"when": "editorTextFocus && !editorReadonly && editorHasSelection"
