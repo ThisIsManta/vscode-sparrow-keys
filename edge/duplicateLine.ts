@@ -158,6 +158,12 @@ function createEdit(node: ts.Node, document: vscode.TextDocument): Array<{ offse
 		return [{ offset: node.getStart(), insert: 'if (' + node.expression.getText() + ') ' + node.thenStatement.getText() + ' else ' }]
 	}
 
+	if (ts.isCaseClause(node)) {
+		const position = document.positionAt(node.getEnd())
+		const line = document.lineAt(position.line)
+		return [{ offset: node.getStart(), insert: node.getText() + (position.isEqual(line.range.end) ? '\n' : '') }]
+	}
+
 	// Do not duplicate a block if it is a part of `if-then-else` or a loop
 	if (ts.isBlock(node) && ts.isBlock(node.parent) === false) {
 		return createEdit(node.parent, document)
@@ -185,6 +191,22 @@ function createEdit(node: ts.Node, document: vscode.TextDocument): Array<{ offse
 		})()
 
 		return [{ offset: node.getStart(), insert: node.getText() + delimiter }]
+	}
+
+	if (ts.isJsxElement(node) || ts.isJsxSelfClosingElement(node)) {
+		if (ts.isJsxElement(node.parent) === false) {
+			const parenthesisNeeded = !ts.isParenthesizedExpression(node.parent)
+			return [
+				{ offset: node.getStart(), insert: (parenthesisNeeded ? '(' : '') + '<React.Fragment>' + node.getText() },
+				{ offset: node.getEnd(), insert: '</React.Fragment>' + (parenthesisNeeded ? ')' : '') },
+			]
+		}
+
+		return [{ offset: node.getStart(), insert: node.getText() }]
+	}
+
+	if (ts.isJsxAttributeLike(node)) {
+		return [{ offset: node.getStart(), insert: node.getText() + ' ' }]
 	}
 
 	return createEdit(node.parent, document)
