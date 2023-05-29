@@ -8,7 +8,8 @@
 |**F4** in the quick open|Open _package.json_ from the current workspaces.|
 |**Alt+E**|Copy and paste the current active file name without its file extension and suffix immediately.|
 |**Shift+F2**|Trigger `workbench.files.action.focusFilesExplorer`, `workbench.files.action.showActiveFileInExplorer`, and `renameFile` commands respectively.|
-|**Ctrl+D**|Trigger `filesExplorer.copy` and `filesExplorer.paste` commands respectively. This must be called when you focus on the files explorer only.|
+|**Ctrl+D** on the explorer view|Trigger `filesExplorer.copy` and `filesExplorer.paste` commands respectively. This must be called when you focus on the files explorer only.|
+|**Ctrl+D** on a document|Duplicate the select semantic node or the current active line. The semantic node supports JavaScript/TypeScript/JSON statements, object members, array members, function parameters, call arguments, if/else-if/else clauses, switch-case clauses, and arithmetic/bitwise/logical binary operands.|
 |**Alt+T U**|Convert the selected text to all upper case.|
 |**Alt+T L**|Convert the selected text to all lower case.|
 |**Alt+T F**|Convert the selected text to capitalized-each word.|

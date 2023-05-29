@@ -8,6 +8,7 @@ import camelCase from 'lodash/camelCase'
 import snakeCase from 'lodash/snakeCase'
 import kebabCase from 'lodash/kebabCase'
 import upperFirst from 'lodash/upperFirst'
+import duplicateLine from './duplicateLine'
 
 export function activate(context: vscode.ExtensionContext) {
 	const recentEditors: Array<{ document: vscode.TextDocument, viewColumn: vscode.ViewColumn | undefined }> = []
@@ -104,6 +105,13 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.duplicateFile', async () => {
 		await vscode.commands.executeCommand('filesExplorer.copy')
 		await vscode.commands.executeCommand('filesExplorer.paste')
+	}))
+
+	context.subscriptions.push(vscode.commands.registerCommand('sparrowKeys.duplicateLine', async () => {
+		const editor = vscode.window.activeTextEditor
+		if (editor) {
+			await duplicateLine(editor)
+		}
 	}))
 
 	const casingCommands = [

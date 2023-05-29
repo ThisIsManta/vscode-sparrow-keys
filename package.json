@@ -2,7 +2,7 @@
 	"name": "sparrow-keys",
 	"displayName": "Manta's Sparrow Keys",
 	"description": "Add useful keyboard shortcuts.",
-	"version": "3.3.0",
+	"version": "3.3.1",
 	"publisher": "thisismanta",
 	"categories": [
 		"Keymaps",
@@ -10,7 +10,8 @@
 	],
 	"keywords": [
 		"file",
-		"npm",
+		"open",
+		"duplicate",
 		"keybindings"
 	],
 	"repository": {
@@ -68,6 +69,10 @@
 			{
 				"command": "sparrowKeys.duplicateFile",
 				"title": "Sparrow Keys: Duplicate Active File"
+			},
+			{
+				"command": "sparrowKeys.duplicateLine",
+				"title": "Sparrow Keys: Duplicate Current Line"
 			}
 		],
 		"keybindings": [
@@ -112,6 +117,11 @@
 				"when": "explorerViewletVisible && filesExplorerFocus"
 			},
 			{
+				"command": "sparrowKeys.duplicateLine",
+				"key": "ctrl+d",
+				"when": "editorTextFocus && !editorReadonly"
+			},
+			{
 				"key": "alt+t u",
 				"command": "editor.action.transformToUppercase",
 				"when": "editorTextFocus && !editorReadonly && editorHasSelection"
@@ -150,7 +160,7 @@
 	},
 	"scripts": {
 		"postinstall": "code --install-extension connor4312.esbuild-problem-matchers",
-		"build": "esbuild edge/extension.ts --bundle --platform=node --outfile=dist/extension.js --external:vscode --format=cjs",
+		"build": "esbuild edge/extension.ts --bundle --platform=node --outfile=dist/extension.js --external:vscode --external:typescript --format=cjs",
 		"watch": "npm run build -- --watch --sourcemap",
 		"vscode:prepublish": "npm run build -- --minify",
 		"version": "npx @vscode/vsce publish"
