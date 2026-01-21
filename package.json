@@ -169,7 +169,7 @@
 		"@types/vscode": "1.102.0",
 		"esbuild": "^0.25.8",
 		"lefthook": "^1.12.2",
-		"lodash": "^4.17.21"
+		"lodash": "^4.17.23"
 	},
 	"dependencies": {
 		"typescript": "^5.8.3"
