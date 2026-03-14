@@ -163,7 +163,7 @@
 		"version": "npx @vscode/vsce publish --pat $VSCE_PUBLISH_TOKEN"
 	},
 	"devDependencies": {
-		"@thisismanta/semantic-version": "^9.1.2",
+		"@thisismanta/semantic-version": "^10.0.0",
 		"@types/lodash": "^4.17.20",
 		"@types/node": "^20.0.0",
 		"@types/vscode": "1.102.0",
